@@ -53,23 +53,3 @@ def compute_metrics(comparison):
         "count": int(len(comparison)),
     }
 
-
-def _summarise(groups):
-    return groups.agg(
-        bias_mw=("error_mw", "mean"),
-        mae_mw=("abs_error_mw", "mean"),
-        avg_actual_mw=("actual_mw", "mean"),
-    ).reset_index()
-
-
-def error_by_hour(comparison):
-    """Bias and MAE for each hour of the day (UTC, same as UK time in January)."""
-    df = comparison.assign(abs_error_mw=comparison["error_mw"].abs())
-    return _summarise(df.groupby(df["startTime"].dt.hour.rename("hour")))
-
-
-def error_by_day(comparison):
-    """Bias and MAE for each delivery day."""
-    df = comparison.assign(abs_error_mw=comparison["error_mw"].abs())
-    return _summarise(df.groupby(df["startTime"].dt.strftime("%Y-%m-%d").rename("date")))
-

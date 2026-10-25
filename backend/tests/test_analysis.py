@@ -1,12 +1,6 @@
 import pandas as pd
 
-from app.analysis import (
-    build_comparison,
-    compute_metrics,
-    error_by_day,
-    error_by_hour,
-    select_latest_forecasts,
-)
+from app.analysis import build_comparison, compute_metrics, select_latest_forecasts
 
 
 def ts(text):
@@ -55,20 +49,4 @@ def test_compute_metrics():
     assert round(m["rmse_mw"], 2) == 15.81
     assert m["mape_pct"] == 15
     assert m["p90_abs_error_mw"] == 20
-
-
-def test_error_by_hour_and_day():
-    comparison = pd.DataFrame({
-        "startTime": [ts("2026-01-10 12:00"), ts("2026-01-10 12:30"), ts("2026-01-11 13:00")],
-        "actual_mw": [100, 100, 100],
-        "error_mw": [10, -30, 20],
-    })
-    by_hour = error_by_hour(comparison).set_index("hour")
-    assert by_hour.loc[12, "bias_mw"] == -10
-    assert by_hour.loc[12, "mae_mw"] == 20
-    assert by_hour.loc[13, "mae_mw"] == 20
-
-    by_day = error_by_day(comparison).set_index("date")
-    assert list(by_day.index) == ["2026-01-10", "2026-01-11"]
-    assert by_day.loc["2026-01-10", "mae_mw"] == 20
 
