@@ -7,7 +7,7 @@ A web app for a UK energy utility's day-ahead buying team. It answers two questi
 
 **Live app:** https://kjhwr-zeta.vercel.app (hosted on Vercel)
 
-**Demo video:** _TODO: add the unlisted YouTube link_
+**Demo video:** https://youtu.be/HgRrRXpBp0Q
 
 ## Use of AI tools
 
